@@ -3,57 +3,77 @@ import { FaUser } from "react-icons/fa";
 import { PiGraduationCapDuotone } from "react-icons/pi";
 import { SlCalender } from "react-icons/sl";
 import { FaBookReader } from "react-icons/fa";
+import Courses from "./Courses";
+import { motion as Motion } from 'framer-motion';
+
+const containerVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06 } }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 8 },
+  show: { opacity: 1, y: 0 }
+};
 
 function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-2 md:p-4 lg:p-6">
-      {/* Header Info */}
-      <div className="flex flex-col xl:flex-row gap-6 bg-white shadow rounded-2xl p-6 mb-6">
-        {/* Student Info */}
-        <div className="grid sm:flex items-start sm:items-center gap-4 flex-1">
-          {/* <img src="" className="w-16 h-16 rounded-full" alt="" /> */}
-          <FaUser className="w-16 h-16 text-[var(--green)]" />
-          <div>
-            <h2 className="text-lg sm:text-xl font-semibold">Student Name</h2>
-            <p className="text-gray-500 text-sm sm:text-base">student-id</p>
-            <p className="text-xs sm:text-sm text-gray-400">
-              Enrolled in Information Technology and Computer Science
-            </p>
-            <span className="flex items-center w-[200px] gap-2 mt-2 px-3 py-1 text-xs sm:text-sm font-medium bg-[var(--green)]/10 text-[var(--green)] rounded-full">
-              <PiGraduationCapDuotone /> BS Computer Science
-            </span>
+  <Motion.div variants={containerVariants} initial="hidden" animate="show">
+        {/* Header Info */}
+  <Motion.div variants={itemVariants} className="flex flex-col xl:flex-row gap-6 bg-white shadow rounded-2xl p-6 mb-6">
+          {/* Student Info */}
+          <div className="grid sm:flex items-start sm:items-center gap-4 flex-1">
+            {/* <img src="" className="w-16 h-16 rounded-full" alt="" /> */}
+            <FaUser className="w-16 h-16 text-[var(--green)]" />
+            <div>
+              <h2 className="text-lg sm:text-xl font-semibold">Student Name</h2>
+              <p className="text-gray-500 text-sm sm:text-base">student-id</p>
+              <p className="text-xs sm:text-sm text-gray-400">
+                Enrolled in Information Technology and Computer Science
+              </p>
+              <span className="flex items-center w-[200px] gap-2 mt-2 px-3 py-1 text-xs sm:text-sm font-medium bg-[var(--green)]/10 text-[var(--green)] rounded-full">
+                <PiGraduationCapDuotone /> BS Computer Science
+              </span>
+            </div>
           </div>
-        </div>
 
-        {/* Stats Section */}
-        <div className="grid justify-center items-end grid-cols-2 md:grid-cols-4 gap-4 flex-1">
-          <StatBox title="CGPA" value="3.23" />
-          <StatBox title="Earned Credits" value="69" />
-          <StatBox title="Total Credits" value="133" />
-          <StatBox title="In Progress" value="10" />
-        </div>
-      </div>
+          {/* Stats Section */}
+          <Motion.div variants={itemVariants} className="grid justify-center items-end grid-cols-2 md:grid-cols-4 gap-4 flex-1">
+            <StatBox title="CGPA" value="3.23" />
+            <StatBox title="Earned Credits" value="69" />
+            <StatBox title="Total Credits" value="133" />
+            <StatBox title="In Progress" value="10" />
+          </Motion.div>
+        </Motion.div>
 
-      {/* Progress Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <ProgressCard
-          title="Credit Hours"
-          percent={52}
-          detail1="Completed 69 hrs"
-          detail2="Remaining 64 hrs"
-        />
-        <ProgressCard
-          title="GPA"
-          percent={84}
-          detail1="Current GPA: 3.37"
-          detail2="Letter Grade: B+"
-        />
-      </div>
+        {/* Progress Section */}
+  <Motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <ProgressCard
+            title="Credit Hours"
+            percent={52}
+            detail1="Completed 69 hrs"
+            detail2="Remaining 64 hrs"
+          />
+          <ProgressCard
+            title="GPA"
+            percent={84}
+            detail1="Current GPA: 3.37"
+            detail2="Letter Grade: B+"
+          />
+  </Motion.div>
 
-      {/* Classes Section */}
-      <TodayClasses />
-      {/*  */}
+        {/* Classes Section */}
+        <Motion.div variants={itemVariants}>
+          <TodayClasses />
+        </Motion.div>
+
+        {/* Courses Section */}
+        <Motion.div variants={itemVariants} className="mt-6">
+          <Courses />
+        </Motion.div>
+      </Motion.div>
     </div>
   );
 }

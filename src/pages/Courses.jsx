@@ -4,6 +4,7 @@ import {
     Card,
 } from "../shadcn-components/ui/card"
 import { FaBookOpen } from "react-icons/fa";
+import { motion as Motion } from 'framer-motion';
 
 const courses = [
     {
@@ -50,7 +51,7 @@ const courses = [
 
 export default function Courses() {
     return (
-        <div className="w-full sm:p-4">
+        <div className="w-full mt-5">
 
             <Card className="p-6 shadow-md rounded-2xl border-[1px] border-[var(--borderColor)]">
                 {/* Header */}
@@ -67,12 +68,28 @@ export default function Courses() {
                 </div>
 
                 {/* Course Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+                <Motion.div
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4"
+                    initial="hidden"
+                    animate="show"
+                    variants={{
+                        hidden: {},
+                        show: { transition: { staggerChildren: 0.08 } }
+                    }}
+                >
                     {courses.length === 0 ? (
                         <div className="col-span-full p-6 text-center text-gray-500">No courses enrolled.</div>
                     ) : (
                         courses.map((c) => (
-                            <div key={c.id} className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+                            <Motion.div
+                                key={c.id}
+                                className="bg-white border border-gray-200 rounded-lg shadow-sm transition-all duration-200 overflow-hidden"
+                                variants={{
+                                    hidden: { opacity: 0, y: 8 },
+                                    show: { opacity: 1, y: 0 }
+                                }}
+                                whileHover={{ scale: 1.02 }}
+                            >
                                 <div className="bg-[var(--borderColor)] p-3 text-teal-700">
                                     <h4 className="font-semibold text-sm line-clamp-2 mb-2 min-h-[2rem]">{c.title}</h4>
                                     <div className="flex items-center justify-between">
@@ -108,10 +125,10 @@ export default function Courses() {
                                     </div>
 
                                 </div>
-                            </div>
+                            </Motion.div>
                         ))
                     )}
-                </div>
+                </Motion.div>
             </Card>
         </div>
     );
