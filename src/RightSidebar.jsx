@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import React from "react";
+import { IoClose } from "react-icons/io5";
+import { FaBell } from "react-icons/fa";
 
 const notifications = [
   { id: 1, text: "Your result has been published." },
@@ -18,19 +19,19 @@ const RightSidebar = ({ onClose }) => (
     animate="visible"
     exit="hidden"
     variants={sidebarVariants}
-    className="h-full flex flex-col bg-white border-l border-gray-200 p-4 min-w-[20rem] shadow-lg relative"
+    className="h-full flex flex-col bg-white z-50 border-l border-gray-200 p-4 min-w-[20rem] shadow-lg relative"
   >
     <button
-      className="absolute top-4 right-4 text-gray-400 hover:text-orange-500 text-2xl"
+      className="absolute top-4 right-4 text-gray-400 hover:text-[var(--green)] text-2xl"
       onClick={onClose}
       aria-label="Close notifications"
     >
-      <span className="material-icons">close</span>
+      <span className="material-icons"><IoClose /></span>
     </button>
-    <div className="mb-6 text-xl font-bold text-orange-500">Notifications</div>
+    <div className="mb-6 text-xl font-bold text-[var(--green)]">Notifications</div>
     <ul className="flex flex-col gap-4">
       {notifications.map((n) => (
-        <li key={n.id} className="bg-orange-50 p-3 rounded-lg text-gray-700 shadow-sm">
+        <li key={n.id} className="bg-[var(--green)]/10 p-3 rounded-lg text-gray-700 shadow-sm">
           {n.text}
         </li>
       ))}

@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import RightSidebar from "./RightSidebar";
 import LeftSidebar from "./LeftSidebar";
+import { LuMenu } from "react-icons/lu";
+import { FaBell } from "react-icons/fa6";
 
 const Layout = () => {
     const [showLeft, setShowLeft] = useState(true);
@@ -44,23 +46,23 @@ const Layout = () => {
 
             {/* Sidebar Toggle Button (Mobile) */}
             <button
-                className="absolute top-4 left-4 z-30 md:hidden bg-white p-2 rounded shadow"
+                className="absolute top-4 left-4 z-20 md:hidden bg-white p-2 rounded shadow"
                 onClick={() => setShowLeft((prev) => !prev)}
             >
-                <span className="material-icons">menu</span>
+                <span className="material-icons"><LuMenu /></span>
             </button>
 
             {/* Main Content */}
             <div className="flex-1 flex flex-col overflow-hidden">
                 {/* Topbar */}
                 <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200">
-                    <h1 className="text-xl font-bold">Dashboard</h1>
+                    <h1 className="text-xl font-bold ms-10 md:m-0">Dashboard</h1>
                     <button
                         className="relative bg-gray-100 p-2 rounded-full hover:bg-gray-200"
                         onClick={() => setShowRight((prev) => !prev)}
                     >
-                        <span className="material-icons">notifications</span>
-                        <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                        <span className="material-icons"><FaBell className="text-[var(--green)]" /></span>
+                        <span className="absolute top-0 right-0 w-2 h-2 bg-[var(--green)] rounded-full"></span>
                     </button>
                 </div>
                 <main className="flex-1 overflow-y-auto p-6">

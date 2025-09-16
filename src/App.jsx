@@ -12,6 +12,7 @@ import Results from './pages/Results';
 import Attendance from './pages/Attendance';
 import Login from './Components/AuthComponents/Login';
 import Signup from './Components/AuthComponents/Signup';
+import NotFound from './pages/404';
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: '*',
-    element: <Navigate to="/" replace />,
+    element: <NotFound />,
   },
 ]);
 

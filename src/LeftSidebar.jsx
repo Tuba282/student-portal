@@ -1,13 +1,18 @@
 import { motion } from "framer-motion";
-import React from "react";
+import { LuLayoutDashboard } from "react-icons/lu";
 import { NavLink } from "react-router-dom";
+import { LuBookOpenCheck } from "react-icons/lu";
+import { MdOutlineAssignment } from "react-icons/md";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+
+import { IoLogOutOutline } from "react-icons/io5";
 
 const navLinks = [
-    { to: "/dashboard", label: "Dashboard", icon: "dashboard" },
-    { to: "/courses", label: "Courses", icon: "menu_book" },
-    { to: "/results", label: "Results", icon: "assignment" },
-    { to: "/attendance", label: "Attendance", icon: "check_box" },
-    { to: "/login", label: "Logout", icon: "loginout" },
+    { to: "/dashboard", label: "Dashboard", icon: <LuLayoutDashboard /> },
+    { to: "/courses", label: "Courses", icon: <LuBookOpenCheck /> },
+    { to: "/results", label: "Results", icon: <MdOutlineAssignment /> },
+    { to: "/attendance", label: "Attendance", icon: <IoMdCheckmarkCircleOutline /> },
+    { to: "/login", label: "Logout", icon: <IoLogOutOutline /> },
 ];
 
 const sidebarVariants = {
@@ -23,14 +28,14 @@ const LeftSidebar = () => (
         variants={sidebarVariants}
         className="h-full flex flex-col bg-white border-r border-gray-200 p-4 min-w-[16rem]"
     >
-        <div className="mb-8 text-2xl font-bold text-orange-500 tracking-wide">DevXcript</div>
-        <nav className="flex flex-col gap-2">
+        <div className="mb-8 text-2xl font-bold text-[var(--green)] tracking-wide">DevXcript</div>
+        <nav className="flex flex-col gap-1">
             {navLinks.map((link) => (
                 <NavLink
                     key={link.to}
                     to={link.to}
                     className={({ isActive }) =>
-                        `flex items-center gap-3 px-4 py-2 rounded-lg transition-colors duration-200 ${isActive ? "bg-orange-100 text-orange-600" : "hover:bg-gray-100 text-gray-700"
+                        `flex text-lg items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 border-1  border-transparent  ${isActive ? "bg-[var(--green)]/10 text-[var(--green)] border-[var(--borderColor)]!" : "hover:bg-gray-100 text-gray-600"
                         }`
                     }
                 >
