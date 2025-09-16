@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import RightSidebar from "./RightSidebar";
+import LeftSidebar from "./LeftSidebar";
 
 const Layout = () => {
     const [showLeft, setShowLeft] = useState(true);
@@ -10,17 +12,33 @@ const Layout = () => {
 
         <div className="flex h-screen bg-gray-50">
             {/* Left Sidebar */}
+            {/* Desktop Sidebar */}
+            <div className="hidden md:block">
+                <LeftSidebar />
+            </div>
+            {/* Mobile Sidebar with overlay */}
             <AnimatePresence>
                 {showLeft && (
-                    <motion.div
-                        initial={{ x: -250, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        exit={{ x: -250, opacity: 0 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className="z-20 w-64 min-w-[16rem] bg-white border-r border-gray-200 hidden md:block"
-                    >
-                        <LeftSidebar />
-                    </motion.div>
+                    <>
+                        {/* Overlay */}
+                        <motion.div
+                            className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setShowLeft(false)}
+                        />
+                        {/* Sidebar */}
+                        <motion.div
+                            initial={{ x: -250, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            exit={{ x: -250, opacity: 0 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            className="fixed top-0 left-0 h-full w-64 min-w-[16rem] bg-white border-r border-gray-200 z-40 md:hidden shadow-lg"
+                        >
+                            <LeftSidebar />
+                        </motion.div>
+                    </>
                 )}
             </AnimatePresence>
 
