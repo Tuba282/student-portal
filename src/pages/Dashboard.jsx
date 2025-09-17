@@ -5,6 +5,10 @@ import { SlCalender } from "react-icons/sl";
 import { FaBookReader } from "react-icons/fa";
 import Courses from "./Courses";
 import { motion as Motion } from 'framer-motion';
+import { useRef, useEffect } from 'react';
+import { GoDotFill } from "react-icons/go";
+import { Chart, ArcElement, DoughnutController, Tooltip } from 'chart.js';
+Chart.register(ArcElement, DoughnutController, Tooltip);
 
 const containerVariants = {
   hidden: {},
@@ -20,9 +24,9 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-2 md:p-4 lg:p-6">
-  <Motion.div variants={containerVariants} initial="hidden" animate="show">
+      <Motion.div variants={containerVariants} initial="hidden" animate="show">
         {/* Header Info */}
-  <Motion.div variants={itemVariants} className="flex flex-col xl:flex-row gap-6 bg-white shadow rounded-2xl p-6 mb-6">
+        <Motion.div variants={itemVariants} className="flex flex-col xl:flex-row gap-6 bg-white shadow rounded-2xl p-6 mb-6">
           {/* Student Info */}
           <div className="grid sm:flex items-start sm:items-center gap-4 flex-1">
             {/* <img src="" className="w-16 h-16 rounded-full" alt="" /> */}
@@ -49,7 +53,7 @@ function Dashboard() {
         </Motion.div>
 
         {/* Progress Section */}
-  <Motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <Motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <ProgressCard
             title="Credit Hours"
             percent={52}
@@ -62,7 +66,7 @@ function Dashboard() {
             detail1="Current GPA: 3.37"
             detail2="Letter Grade: B+"
           />
-  </Motion.div>
+        </Motion.div>
 
         {/* Classes Section */}
         <Motion.div variants={itemVariants}>
@@ -90,37 +94,56 @@ function StatBox({ title, value }) {
 }
 
 function ProgressCard({ title, percent, detail1, detail2 }) {
+  const canvasRef = useRef(null);
+  const chartRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = canvasRef.current.getContext('2d');
+    if (chartRef.current) {
+      chartRef.current.destroy();
+    }
+
+    chartRef.current = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        datasets: [
+          {
+            data: [percent, 100 - percent],
+            backgroundColor: ['#14b8a6', '#f3f4f6'],
+            borderWidth: 0,
+            cutout: '72%'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          tooltip: { enabled: false }
+        }
+      }
+    });
+
+    return () => {
+      if (chartRef.current) chartRef.current.destroy();
+    };
+  }, [percent]);
+
   return (
     <div className="bg-white shadow rounded-2xl p-6 flex flex-col items-center">
       <h4 className="font-medium mb-4 text-sm md:text-base">{title}</h4>
-      <div className="relative w-24 h-24 md:w-28 md:h-28 mb-4">
-        <svg className="w-full h-full -rotate-90">
-          <circle
-            cx="56"
-            cy="56"
-            r="50"
-            stroke="#e5e7eb"
-            strokeWidth="10"
-            fill="transparent"
-          />
-          <circle
-            cx="56"
-            cy="56"
-            r="50"
-            stroke="#3b82f6"
-            strokeWidth="10"
-            fill="transparent"
-            strokeDasharray="314"
-            strokeDashoffset={314 - (percent / 100) * 314}
-            strokeLinecap="round"
-          />
-        </svg>
-        <span className="absolute inset-0 flex items-center justify-center font-semibold text-sm md:text-lg">
-          {percent}%
+      <div className="relative w-36 h-36 md:w-40 md:h-40 mb-4">
+        <canvas ref={canvasRef} className="w-full h-full" />
+        <span className="absolute inset-0 flex flex-col items-center justify-center font-semibold text-sm md:text-lg">
+          <span className="text-2xl md:text-3xl">{percent}%</span>
+          <span className="text-xs text-gray-500 mt-1">{detail1.split(' ')[0]} {detail1.split(' ')[1] || ''} </span>
+          <span className="text-xs text-gray-500 mt-1">{detail2.split(' ')[0]}</span>
         </span>
       </div>
-      <p className="text-gray-500 text-xs md:text-sm">{detail1}</p>
-      <p className="text-gray-500 text-xs md:text-sm">{detail2}</p>
+      <div className="w-full flex justify-between items-center">
+        <p className="text-gray-500 text-xs md:text-sm flex justify-between items-center"><GoDotFill className="text-[var(--green)]" /> {detail1}</p>
+        <p className="text-gray-500 text-xs md:text-sm flex justify-between items-center"><GoDotFill className="text-[var(--green)]" /> {detail2}</p>
+      </div>
     </div>
   );
 }
@@ -192,7 +215,7 @@ function ClassCard({ subject, code, teacher, time, type }) {
     <div className="border-1 border-[var(--borderColor)]! rounded-xl p-4 hover:bg-[var(--borderColor)]/50 transition flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
       <div>
         <div className="flex gap-2 mb-2 items-center">
-          <span className="p-2 bg-[var(--borderColor)] rounded-md"><FaBookReader  className="font-semibold text-base md:text-lg text-[var(--green)]"/></span>
+          <span className="p-2 bg-[var(--borderColor)] rounded-md"><FaBookReader className="font-semibold text-base md:text-lg text-[var(--green)]" /></span>
           <div>
             <h4 className="font-semibold text-base md:text-lg text-[var(--green)]">{subject}</h4>
             <p className="text-xs text-gray-500">{code}</p>
