@@ -16,16 +16,28 @@ const Login = () => {
         e.preventDefault()
         const getuser = localStorage.getItem("user");
         const userObject = JSON.parse(getuser);
+        if (userObject) {
+            const checkEmail = formData.email === userObject.email
+            const checkPassword = formData.password === userObject.password
 
-        const checkEmail = formData.email === userObject.email
-        const checkPassword = formData.password === userObject.password
+            const isAuthentic = checkEmail == checkPassword ? true : setError("email aur password must be incorrect!")
+            if (isAuthentic) {
+                goto('/dashboard')
 
-        const isAuthentic = checkEmail == checkPassword
-        if (isAuthentic) {
-            goto('/dashboard')
+            }
+
+        } else {
+
+
+
+
+            setError("SignUp is Recommanded!")
+            setTimeout(() => {
+                goto('/signup')
+            }, 1500);
+            return false
+
         }
-
-        setError("email aur password must be incorrect!")
 
     };
 
