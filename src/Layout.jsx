@@ -5,6 +5,8 @@ import RightSidebar from "./RightSidebar";
 import LeftSidebar from "./LeftSidebar";
 import { LuMenu } from "react-icons/lu";
 import { FaBell } from "react-icons/fa6";
+import Profile from "./pages/Profile";
+import { FaUserCircle } from "react-icons/fa";
 
 const Layout = () => {
     const [showLeft, setShowLeft] = useState(true);
@@ -57,13 +59,16 @@ const Layout = () => {
                 {/* Topbar */}
                 <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200">
                     <h1 className="text-xl font-bold ms-10 md:m-0">Dashboard</h1>
-                    <button
+                    <div className="flex justify-center items-center gap-4">
+                        <button
                         className="relative bg-gray-100 p-2 rounded-full hover:bg-gray-200"
                         onClick={() => setShowRight((prev) => !prev)}
                     >
                         <span className="material-icons"><FaBell className="text-[var(--green)]" /></span>
                         <span className="absolute top-0 right-0 w-2 h-2 bg-[var(--green)] rounded-full"></span>
                     </button>
+                    <Profile/>
+                    </div>
                 </div>
                 <main className="flex-1 overflow-y-auto p-6">
                     <Outlet />

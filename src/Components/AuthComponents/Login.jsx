@@ -1,15 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 
+
 const Login = () => {
+    const [error, setError] = useState("")
+    const [formData, setFormData] = useState({
+        email: "",
+        password: ""
+    });
     motion
     const goto = useNavigate();
 
-    const handleLogin = () => {
+    const handleLogin = (e) => {
+        e.preventDefault()
+        const getuser = localStorage.getItem("user");
+        const userObject = JSON.parse(getuser);
 
-        goto('/dashboard');
+        const checkEmail = formData.email === userObject.email
+        const checkPassword = formData.password === userObject.password
+
+        const isAuthentic = checkEmail == checkPassword
+        if (isAuthentic) {
+            goto('/dashboard')
+        }
+
+        setError("email aur password must be incorrect!")
+
     };
+
+
+
+    const handleChange = (e) => {
+        setFormData(
+            {
+                ...formData,
+                [e.target.name]: e.target.value,
+            }
+        )
+    }
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <motion.div
@@ -35,16 +65,17 @@ const Login = () => {
 
                     <div className="mt-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
-                        <input className="bg-gray-100 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none" type="email" />
+                        <input name='email' onChange={handleChange} value={formData.email} className="bg-gray-100 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none" type="email" />
                     </div>
                     <div className="mt-4">
                         <div className="flex justify-between">
                             <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
                             {/* <a href="#" className="text-xs text-gray-500">Forget Password?</a> */}
                         </div>
-                        <input className="bg-gray-100 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none" type="password" />
+                        <input name='password' onChange={handleChange} value={formData.password} className="bg-gray-100 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none" type="password" />
                     </div>
                     <div className="mt-8">
+                        <p className='my-1 text-xs text-red-600 '>{error}</p>
                         <button onClick={handleLogin} className="bg-[#14B8A6] text-white font-bold py-2 px-4 w-full rounded hover:bg-[#0b7669]">Login</ button>
                     </div>
                     <div className="mt-4 flex items-center justify-between">

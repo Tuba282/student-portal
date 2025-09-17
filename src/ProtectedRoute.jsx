@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 
 // Dummy auth check, replace with real logic
 const isAuthenticated = () => {
-  return !!localStorage.getItem("token");
+  return !!localStorage.getItem("user");
 };
 
 const ProtectedRoute = ({ children }) => {

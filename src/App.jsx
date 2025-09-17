@@ -1,8 +1,7 @@
 import React from 'react';
 import {
   createBrowserRouter,
-  RouterProvider,
-  Navigate,
+  RouterProvider
 } from 'react-router-dom';
 import Layout from './Layout';
 import ProtectedRoute from './ProtectedRoute';
@@ -16,6 +15,10 @@ import NotFound from './pages/404';
 
 const router = createBrowserRouter([
   {
+    path: '/',
+    element: <Login />,
+  },
+  {
     path: '/login',
     element: <Login />,
   },
@@ -26,7 +29,6 @@ const router = createBrowserRouter([
   {
     element: <ProtectedRoute><Layout /></ProtectedRoute>,
     children: [
-      { path: '/', element: <Dashboard /> },
       { path: '/dashboard', element: <Dashboard /> },
       { path: '/courses', element: <Courses /> },
       { path: '/results', element: <Results /> },
